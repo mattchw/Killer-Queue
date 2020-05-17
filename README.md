@@ -132,4 +132,3 @@ For example, using `curl`:
 curl http://localhost:3000 \
 	-H "Authorization: Bearer 951d6f603c2ce322c5def00ce58952ed2d096a72"
 ```
-# Restaurant-Queueing-Server
