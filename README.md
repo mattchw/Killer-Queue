@@ -1,8 +1,10 @@
-# Backend Server
+# Restaurant Queueing Server
 
 ## Setup
 
 First, you should have [MongoDB](https://www.mongodb.com/) installed and running on your machine.
+
+Then, you should fillin the proper values in the .env file.
 
 You also need to install **nodejs** and **npm** and then, simply run `npm install` and `npm start`. The server should now be running at `http://localhost:3000`.
 
@@ -132,4 +134,3 @@ For example, using `curl`:
 curl http://localhost:3000 \
 	-H "Authorization: Bearer 951d6f603c2ce322c5def00ce58952ed2d096a72"
 ```
-# Restaurant-Queueing-Server
