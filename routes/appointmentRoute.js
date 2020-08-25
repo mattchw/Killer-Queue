@@ -7,14 +7,16 @@ const app = express();
 
 // get all appointments
 app.get('/appointments', async (req, res) => {
-    const appointments = await appointmentModel.find({});
-
     try {
-        res.json(appointments);
+        let result = {};
+        const appointments = await appointmentModel.find({});
+
+        result.count = appointments.length;
+        result.appointments = appointments;
+
+        res.sendRes.successRes(res, null, result);
     } catch (err) {
-        res.status(500).send({
-            message: err.message || "Error occurred while searching the appointments."
-        });
+        res.sendRes.internalServerErrRes(res, err.message || "Error occurred while searching the appointments.", null);
     }
 });
 

@@ -39,7 +39,6 @@ app.get('/tickets', async (req, res) => {
     result.tickets = tickets;
 
     res.sendRes.successRes(res, null, result);
-    //res.json(tickets);
   } catch (err) {
     res.sendRes.internalServerErrRes(res, err.message || "Error occurred while searching the ticket.", null);
   }
