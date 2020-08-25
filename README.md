@@ -1,4 +1,5 @@
-# Restaurant Queueing Server
+# Killer Queue
+A shop queuing system
 
 ## Setup
 
@@ -6,7 +7,13 @@ First, you should have [MongoDB](https://www.mongodb.com/) installed and running
 
 Then, you should fillin the proper values in the .env file.
 
-You also need to install **nodejs** and **npm** and then, simply run `npm install` and `npm start`. The server should now be running at `http://localhost:3000`.
+### 1. Using node
+
+You need to install **nodejs** and **npm** and then, simply run `npm install` and `npm start`. The server should now be running at `http://localhost:3000`.
+
+### 2. Using Docker
+
+Make sure **docker** is installed then, simply run `docker container run -d --name killer-queue -p 3000:3000 mattchw/killer-queue`. The server should now be running at `http://localhost:3000`.
 
 ## Usage
 
