@@ -1,14 +1,18 @@
 {
-  "name": "weconn_backend",
+  "name": "killer_queue",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "Matthew Wong",
   "license": "ISC",
-  "description": "",
+  "description": "shops queueing system",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattchw/Killer-Queue.git"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
