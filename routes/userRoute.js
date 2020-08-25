@@ -4,15 +4,17 @@ const authRouter = require('../routes/authRoute');
 const authUtil = require('../oauth/auth');
 const app = express();
 
-app.get('/users', authRouter.authenticateRequest, authUtil.checkAdmin, async (req, res) => {
-  const users = await userModel.find({});
-
+app.get('/users', authRouter.authenticateRequest, authUtil.authorize('Admin'), async (req, res) => {
   try {
-    res.json(users);
+    let result = {};
+    const users = await userModel.find({});
+
+    result.count = users.length;
+    result.users = users;
+
+    return res.sendRes.successRes(res, null, result);
   } catch (err) {
-    res.status(500).send({
-      message: err.message || "Error occurred while searching the users."
-    });
+    return res.sendRes.internalServerErrRes(res, err.message || "Error occurred while searching the users.", null);
   }
 });
 
@@ -23,7 +25,7 @@ app.get('/users/:id', async (req, res) => {
     res.json(user);
   } catch (err) {
     res.status(500).send({
-      message: err.message || "Error occurred while searching the restaurants."
+      message: err.message || "Error occurred while searching the user."
     });
   }
 });
@@ -43,7 +45,7 @@ app.post('/users', async (req, res) => {
     phone: req.body.phone,
     email: req.body.email,
     type: req.body.type,
-    restaurantId: req.body.restaurantId,
+    shop: req.body.shop,
   });
 
   // Save User into db
@@ -57,7 +59,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.put('/users/:id', authRouter.authenticateRequest, authUtil.checkAdmin, async (req, res) => {
+app.put('/users/:id', authRouter.authenticateRequest, authUtil.authorize('Admin'), async (req, res) => {
   // Validate request
   if (!req.body) {
     return res.status(400).send({
@@ -76,7 +78,7 @@ app.put('/users/:id', authRouter.authenticateRequest, authUtil.checkAdmin, async
   }
 });
 
-app.delete('/users/:id', authRouter.authenticateRequest, authUtil.checkAdmin, async (req, res) => {
+app.delete('/users/:id', authRouter.authenticateRequest, authUtil.authorize('Admin'), async (req, res) => {
   // Save User into db
   try {
     const data = await userModel.findByIdAndDelete(req.params.id);

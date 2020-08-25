@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const TicketSchema = new mongoose.Schema({
   ticketNum: {
     type: String,
-    unique: true,
     required: true
   },
   type: {
@@ -18,14 +17,18 @@ const TicketSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  lastUpdate: {
+    type: Date,
+    default: Date.now,
+  },
   status: {
     type: String,
     enum: ['Queueing', 'Calling', 'Passed', 'Expired'],
     required: true
   },
-  restaurantId: {
+  shop: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'restaurants'
+    ref: 'shops'
   }
 });
 

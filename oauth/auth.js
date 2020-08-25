@@ -5,6 +5,33 @@ const clientModel = require('../models/client'),
   tokenModel = require('../models/token'),
   userModel = require('../models/user');
 
+function authorize(roles = []) {
+  // roles param can be a single role string (e.g. Role.User or 'User') 
+  // or an array of roles (e.g. [Role.Admin, Role.User] or ['Admin', 'User'])
+  if (typeof roles === 'string') {
+    roles = [roles];
+  }
+
+  return [
+    // authorize based on user role
+    (req, res, next) => {
+      const { token } = res.locals;
+
+      if (roles.length && token) {
+        for (let role of roles) {
+          if (role === token.user.type) {
+            // authentication and authorization successful
+            return next();
+          }
+        }
+        // user's role is not authorized
+        return res.sendRes.unauthorizedErrRes(res, "Unauthorized. You don't have access." , null);
+      }
+      return res.sendRes.internalServerErrRes(res, "Authorization Error" , null);
+    }
+  ];
+}
+
 async function checkAdmin(req, res, next) {
   const { token } = res.locals;
   const tokenUser = await userModel.find({ username: token.user.username });
@@ -31,8 +58,8 @@ async function checkOwner(req, res, next) {
 
   // check user type
   if (tokenUser[0].type != null) {
-    if (tokenUser[0].type == 'Owner'){
-      res.locals.restaurantId = tokenUser[0].restaurantId;
+    if (tokenUser[0].type == 'Owner') {
+      res.locals.shop = tokenUser[0].shop;
       next();
     }
     else {
@@ -83,7 +110,11 @@ var saveToken = function (token, client, user, callback) {
   };
 
   token.user = {
-    username: user.username
+    username: user.username || null,
+    phone: user.phone || null,
+    email: user.email || null,
+    shop: user.shop || null,
+    type: user.type || null,
   };
 
   var tokenInstance = new tokenModel(token);
@@ -182,6 +213,7 @@ var revokeToken = function (token, callback) {
  */
 
 module.exports = {
+  authorize: authorize,
   checkAdmin: checkAdmin,
   checkOwner: checkOwner,
   getAccessToken: getAccessToken,

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const RestaurantSchema = new mongoose.Schema({
+const ShopSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -22,17 +22,33 @@ const RestaurantSchema = new mongoose.Schema({
     required: true,
     lowercase: true
   },
-  food: [{
+  items: [{
     name: String,
     description: String,
     price: Number,
   }],
+  tableFor2: {
+    type: Number,
+  },
+  tableFor4: {
+    type: Number,
+  },
+  tableFor6: {
+    type: Number,
+  },
+  tableForMore: {
+    type: Number,
+  },
+  averageTimeInHalfHour: {
+    type: Number,
+  },
   thumbnail: String,
   lastUpdate: {
     type: Date,
     default: Date.now
   }
+  
 });
 
-const Restaurant = mongoose.model("restaurants", RestaurantSchema);
-module.exports = Restaurant;
+const Shop = mongoose.model("shops", ShopSchema);
+module.exports = Shop;

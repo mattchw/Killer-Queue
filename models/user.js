@@ -21,9 +21,9 @@ const UserSchema = new mongoose.Schema({
     enum: ['Customer', 'Owner', 'Admin'],
     required: true
   },
-  restaurantId: {
+  shop: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'restaurants'
+    ref: 'shops'
   }
 });
 
