@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "echo \"No test is written yet.\" && exit 0",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",

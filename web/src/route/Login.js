@@ -65,9 +65,9 @@ export default function Login() {
   const location = useLocation();
 
   // reset login status
-  // useEffect(() => {
-  //   dispatch(authActions.logout());
-  // }, []);
+  useEffect(() => {
+    dispatch(authActions.logout);
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -81,7 +81,7 @@ export default function Login() {
     if (username && password) {
       // get return url from location state or default to home page
       const { from } = location.state || { from: { pathname: "/" } };
-      await dispatch(authActions.login(username, password, from));
+      await dispatch(authActions.login(username, password));
       history.push(from);
     }
   }

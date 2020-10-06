@@ -18,7 +18,7 @@ export const logoutReq = () => ({
   type: LOGOUT,
 });
 
-const login = (username, password, from) => async (dispatch) => {
+const login = (username, password) => async (dispatch) => {
 	try {
 		const params = new URLSearchParams();
     params.append('username', username);
@@ -32,6 +32,7 @@ const login = (username, password, from) => async (dispatch) => {
         }
     }).then(res =>{
 			dispatch(loginSuccess(res.data));
+			localStorage.setItem('user', JSON.stringify(res.data));
 		});
 		
 	} catch (error) {
@@ -40,6 +41,12 @@ const login = (username, password, from) => async (dispatch) => {
 	}
 };
 
+const logout = () => {
+	// remove user from local storage to log user out
+	localStorage.removeItem('user');
+};
+
 export const authActions = {
 	login,
+	logout
 };
