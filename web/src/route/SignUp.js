@@ -76,13 +76,12 @@ export default function SignUp() {
 
   // reset login status
   useEffect(() => {
-    // if (!register && !submitted) {
-      
-    // } else if (register === "Success") {
-    //   history.push("/login");
-    // }
-    dispatch(authActions.logout);
-  }, []);
+    if (!register && !submitted) {
+      dispatch(authActions.logout);
+    } else if (register === "Success") {
+      history.push("/login");
+    }
+  }, [register]);
 
   const handleSnackbarClose = () => {
     setSnackbar({ open: false, msg: ""});
@@ -107,8 +106,6 @@ export default function SignUp() {
         dispatch(authActions.register(user)).then(()=>{
           if (register !== "Success") {
             setSnackbar({ open: true, msg: register});
-          } else {
-            history.push("/login");
           }
         });
       }
