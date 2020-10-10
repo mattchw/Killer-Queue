@@ -2,6 +2,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  VALIDATE_TOKEN_SUCCESS,
+  VALIDATE_TOKEN_FAILURE,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
 } from '../actions/authentication.action';
 
 let user = JSON.parse(localStorage.getItem('user'));
@@ -12,7 +16,7 @@ export function authentication(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         loggedIn: true,
-        user: action.payload.user
+        token: action.payload.token
       };
     case LOGIN_FAILURE:
       return {
@@ -22,7 +26,28 @@ export function authentication(state = initialState, action) {
     case LOGOUT:
       return {
         loggedIn: false,
-        user: null
+        token: null
+      };
+    case VALIDATE_TOKEN_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    case VALIDATE_TOKEN_FAILURE:
+      return {
+        loggedIn: false,
+        user: null,
+        error: action.payload.error,
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        register: "Success",
+      };
+    case REGISTER_FAILURE:
+      return {
+        ...state,
+        register: action.payload.error,
       };
     default:
       return state
@@ -30,3 +55,4 @@ export function authentication(state = initialState, action) {
 }
 
 export const getLoggedIn = state => state.authentication.loggedIn;
+export const getError = state => state.authentication.error;

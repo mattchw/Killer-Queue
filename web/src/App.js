@@ -7,8 +7,10 @@ import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 // route
+import SignUp from './route/SignUp'
 import Login from './route/Login'
 import Home from './route/Home'
+import NotFound from './route/NotFound'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );

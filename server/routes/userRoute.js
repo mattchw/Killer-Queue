@@ -18,11 +18,15 @@ app.get('/users', authRouter.authenticateRequest, authUtil.authorize('Admin'), a
   }
 });
 
-app.get('/users/:id', async (req, res) => {
-  const user = await userModel.findById(req.params.id);
-
+app.get('/users/check', authRouter.authenticateRequest, async (req, res) => {
   try {
-    res.json(user);
+    const { token } = res.locals;
+    const tokenUser = await userModel.findOne({ username: token.user.username });
+    const resUser = {
+      username: tokenUser.username,
+      type: tokenUser.type,
+    }
+    res.sendRes.successRes(res, null, resUser);
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error occurred while searching the user."
@@ -51,11 +55,9 @@ app.post('/users', async (req, res) => {
   // Save User into db
   try {
     const data = await user.save();
-    res.send(data);
+    res.sendRes.successRes(res, null, data);
   } catch (err) {
-    res.status(500).send({
-      message: err.message || "Error occurred while creating the user."
-    });
+    res.sendRes.internalServerErrRes(res, err.message || "Error occurred while creating user.", null);
   }
 });
 
@@ -72,9 +74,7 @@ app.put('/users/:id', authRouter.authenticateRequest, authUtil.authorize('Admin'
     const data = await userModel.findByIdAndUpdate(req.params.id, req.body, {upsert: true});
     res.send(data);
   } catch (err) {
-    res.status(500).send({
-      message: err.message || "Error occurred while creating the user."
-    });
+    res.sendRes.internalServerErrRes(res, err.message || "Error occurred while creating user.", null);
   }
 });
 
