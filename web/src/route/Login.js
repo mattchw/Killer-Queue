@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import Snackbar from '@material-ui/core/Snackbar';
+
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -54,10 +56,15 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
   const history = useHistory();
+  const register = useSelector(store => store.authentication.register);
 
   const [inputs, setInputs] = useState({
     username: '',
     password: ''
+  });
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    msg: ""
   });
   const [submitted, setSubmitted] = useState(false);
   const { username, password } = inputs;
@@ -67,7 +74,14 @@ export default function Login() {
   // reset login status
   useEffect(() => {
     dispatch(authActions.logout);
+    if (register === "Success"){
+      setSnackbar({ open: true, msg: "Sign Up Successfully"});
+    }
   }, []);
+
+  const handleSnackbarClose = () => {
+    setSnackbar({ open: false, msg: ""});
+  };
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -151,6 +165,17 @@ export default function Login() {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Snackbar
+        ContentProps={{
+                    classes: {
+                        root: classes.root
+                    }
+                }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={snackbar.open}
+        onClose={handleSnackbarClose}
+        message={register}
+      />
     </Container>
   );
 }

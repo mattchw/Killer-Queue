@@ -68,6 +68,7 @@ export default function SignUp() {
   });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
+    msg: ""
   });
   const [submitted, setSubmitted] = useState(false);
   // const registering = useSelector(state => state.authentication);
@@ -75,17 +76,16 @@ export default function SignUp() {
 
   // reset login status
   useEffect(() => {
-    if (!register && !submitted) {
-      dispatch(authActions.logout);
-    } else if (register === "Success") {
-      history.push("/login");
-    } else {
-      setSnackbar({ open: true });
-    }
-  }, [register]);
+    // if (!register && !submitted) {
+      
+    // } else if (register === "Success") {
+    //   history.push("/login");
+    // }
+    dispatch(authActions.logout);
+  }, []);
 
   const handleSnackbarClose = () => {
-    setSnackbar({ open: false });
+    setSnackbar({ open: false, msg: ""});
   };
 
   function handleChange(e) {
@@ -93,7 +93,7 @@ export default function SignUp() {
     setUser(user => ({ ...user, [name]: value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     setSubmitted(true);
@@ -104,7 +104,13 @@ export default function SignUp() {
     } else {
       // make API call
       if (user.firstName && user.lastName && user.username && user.password) {
-        dispatch(authActions.register(user));
+        dispatch(authActions.register(user)).then(()=>{
+          if (register !== "Success") {
+            setSnackbar({ open: true, msg: register});
+          } else {
+            history.push("/login");
+          }
+        });
       }
     }
   }
