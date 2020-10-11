@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -28,6 +28,12 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+import logo from '../assets/images/killer-queue.png';
 
 import { authActions } from '../actions/authentication.action';
 
@@ -58,75 +64,73 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  title: {
+    flexGrow: 1,
+  },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 20,
+    marginRight: theme.spacing(1),
   },
-  menuButtonHidden: {
+  hide: {
     display: 'none',
   },
-  title: {
-    flexGrow: 1,
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
   drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    width: theme.spacing(0),
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
   },
-  appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
   },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
+  appBarIcon: {
+    width: 50
+  }
 }));
 
 export default function Home() {
+  const classes = useStyles();
   const history = useHistory();
+  const theme = useTheme();
 
   const [userType, setUserType] = useState('');
   const dispatch = useDispatch();
 
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -153,7 +157,12 @@ export default function Home() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -164,57 +173,43 @@ export default function Home() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Killer Queue
-          </Typography>
-          <IconButton color="inherit">
-            <Link to="/login"><ExitToAppIcon/></Link>
+          <img src={logo} alt="logo" className={classes.appBarIcon}/> 
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}/>
+          <IconButton color="inherit" onClick={() => { history.push('/login'); }}>
+            <ExitToAppIcon/>
           </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
+        className={classes.drawer}
         variant="persistent"
         anchor="left"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
         open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <List><div>
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItem>
-        </div></List>
+        <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open,
+        })}
+      >
+        <div className={classes.drawerHeader} />
         <Container maxWidth="lg" className={classes.container}>
           {userType === "Admin" && <div>
             <h2>I am Admin!</h2>
