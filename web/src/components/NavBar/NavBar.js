@@ -19,8 +19,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import Icon from '@material-ui/core/Icon'
 
 import logo from '../../assets/images/killer-queue.png';
+
+import drawerItems from '../../constants/drawerItems'
 
 import styles from './NavBar.style'
 
@@ -60,12 +64,12 @@ export default function NavBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={logo} alt="logo" className={classes.appBarIcon}/> 
+          <img src={logo} alt="logo" className={classes.appBarIcon} />
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Killer Queue
           </Typography>
           <IconButton color="inherit" onClick={() => { history.push('/login'); }}>
-            <ExitToAppIcon/>
+            <ExitToAppIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -85,12 +89,28 @@ export default function NavBar(props) {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          {drawerItems.map((drawerItem) => {
+            if (props.userType == drawerItem.name){
+              return (
+                drawerItem.items.map((v, index)=>{
+                  return <ListItem key={index} button>
+                  <ListItemIcon>
+                    <Icon>{v.icon}</Icon>
+                  </ListItemIcon>
+                  <ListItemText primary={v.name} />
+                </ListItem>
+                })
+              )
+            }
+            return (null);
+          }   
+          )}
         </List>
       </Drawer>
       <main

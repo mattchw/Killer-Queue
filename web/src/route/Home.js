@@ -46,7 +46,7 @@ export default function Home() {
   }, []);
 
   return (
-    <NavBar>
+    <NavBar userType={userType}>
       <Container maxWidth="lg">
         {userType === "Admin" && <div>
           <h2>I am Admin!</h2>
