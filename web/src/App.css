@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Abang';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Abang.ttf'); /* IE9 Compat Modes */
+}
+
 .App {
   text-align: center;
 }
