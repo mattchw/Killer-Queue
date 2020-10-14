@@ -29,7 +29,7 @@ const TicketSchema = new mongoose.Schema({
   shop: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'shops'
-  }
+  },
 });
 
 const Ticket = mongoose.model("tickets", TicketSchema);

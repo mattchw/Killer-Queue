@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import NavBar from '../components/NavBar/NavBar';
+import CustomerDashboard from '../components/DashboardContainers/Customer/Customer';
 
 import { authActions } from '../actions/authentication.action';
 
@@ -28,12 +29,12 @@ const drawerWidth = 200;
 export default function Home() {
   const history = useHistory();
 
+  const token = JSON.parse(localStorage.getItem('token'));
   const [userType, setUserType] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
     // validate token
-    const token = JSON.parse(localStorage.getItem('token'));
     if (token != null) {
       dispatch(authActions.validateToken(token.accessToken), (result) => {
         console.log(result)
@@ -54,9 +55,7 @@ export default function Home() {
         {userType === "ShopOwner" && <div>
           <h2>I am ShopOwner!</h2>
         </div>}
-        {userType === "Customer" && <div>
-          <h2>I am Customer!</h2>
-        </div>}
+        {userType === "Customer" && <CustomerDashboard user={token.user}/>}
         <Box pt={4}>
           <Copyright />
         </Box>

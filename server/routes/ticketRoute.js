@@ -44,6 +44,24 @@ app.get('/tickets', async (req, res) => {
   }
 });
 
+// get my tickets
+app.get('/tickets/username', async (req, res) => {
+  try {
+    let result = {};
+    const username = req.query.username || "";
+    let tickets = await ticketModel.find({
+      username: username
+    }).sort('createdTime');;
+
+    result.count = tickets.length;
+    result.tickets = tickets;
+
+    res.sendRes.successRes(res, null, result);
+  } catch (err) {
+    res.sendRes.internalServerErrRes(res, err.message || "Error occurred while searching the ticket.", null);
+  }
+});
+
 // get ticket by ticket id
 app.get('/tickets/:id', async (req, res) => {
   try {

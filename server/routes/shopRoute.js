@@ -1,4 +1,6 @@
 const express = require('express');
+const geolib = require('geolib');
+
 const shopModel = require('../models/shop');
 const authRouter = require('./authRoute');
 const authUtil = require('../oauth/auth');
@@ -9,6 +11,30 @@ app.get('/shops', async (req, res) => {
 
   try {
     res.json(shops);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Error occurred while searching the shops."
+    });
+  }
+});
+
+app.get('/shops/nearest', async (req, res) => {
+  try {
+    const lng = req.query.lng || 25.087626;
+    const lat = req.query.lat || 55.151134;
+
+    let shops = await shopModel.find({
+      "loc": {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [lng, lat]
+          },
+        }
+      }
+    }).limit( 5 );
+
+    res.sendRes.successRes(res, null, shops);
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error occurred while searching the shops."
@@ -69,7 +95,7 @@ app.put('/shops/:id', authRouter.authenticateRequest, authUtil.authorize('Admin'
 
   // Save shop into db
   try {
-    const data = await shopModel.findByIdAndUpdate(req.params.id, req.body, {upsert: true});
+    const data = await shopModel.findByIdAndUpdate(req.params.id, req.body, { upsert: true });
     res.send(data);
   } catch (err) {
     res.status(500).send({
