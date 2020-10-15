@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 
 import NavBar from '../components/NavBar/NavBar';
 import CustomerDashboard from '../components/DashboardContainers/Customer/Customer';
+import ShopOwnerDashboard from '../components/DashboardContainers/ShopOwner/ShopOwner';
 
 import { authActions } from '../actions/authentication.action';
 
@@ -52,9 +53,7 @@ export default function Home() {
         {userType === "Admin" && <div>
           <h2>I am Admin!</h2>
         </div>}
-        {userType === "ShopOwner" && <div>
-          <h2>I am ShopOwner!</h2>
-        </div>}
+        {userType === "ShopOwner" && <ShopOwnerDashboard user={token.user}/>}
         {userType === "Customer" && <CustomerDashboard user={token.user}/>}
         <Box pt={4}>
           <Copyright />

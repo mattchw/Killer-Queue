@@ -10,36 +10,62 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export default function Tickets(props) {
+export default function ShopTickets(props) {
 
   const [getMyTickets, setGetMyTickets] = useState(false);
+  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
-    if (props.tickets>0) {
-      setGetMyTickets(true);
+    switch (props.title) {
+      case 'A':
+        if (props.tickets && props.tickets.A) {
+          setTickets(props.tickets.A);
+          setGetMyTickets(true);
+        }
+        break;
+      case 'B':
+        if (props.tickets && props.tickets.B) {
+          setTickets(props.tickets.B);
+          setGetMyTickets(true);
+        }
+        break;
+      case 'C':
+        if (props.tickets && props.tickets.C) {
+          setTickets(props.tickets.C);
+          setGetMyTickets(true);
+        }
+        break;
+      case 'D':
+        if (props.tickets && props.tickets.D) {
+          setTickets(props.tickets.D);
+          setGetMyTickets(true);
+        }
+        break;
     }
   }, [props]);
 
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        My Tickets
+        Overview - Type {props.title}
       </Typography>
 
       {!getMyTickets ? <CircularProgress size={50} style={{ margin: 50 }} /> : <Table size="small" style={{ userSelect: 'none' }}>
         <TableHead>
           <TableRow>
-            <TableCell>Shop</TableCell>
-            <TableCell>TicketNum</TableCell>
+            <TableCell>Ticket No.</TableCell>
+            <TableCell>People No.</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Last Update</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.tickets.length!=0 && props.tickets.map((item) => {
+          {tickets.length != 0 && tickets.map((item) => {
             return <TableRow key={item.ticketNum}>
-              <TableCell>{item.shop.name}</TableCell>
               <TableCell>{item.ticketNum}</TableCell>
+              <TableCell>{item.peopleNum}</TableCell>
               <TableCell>{item.status}</TableCell>
+              <TableCell>{new Date(item.lastUpdate).toLocaleString()}</TableCell>
             </TableRow>
           })}
         </TableBody>

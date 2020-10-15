@@ -53,6 +53,7 @@ app.get('/tickets/username', async (req, res) => {
       username: username
     })
     .populate('shop')
+    .limit(5)
     .sort('createdTime');
 
     result.count = tickets.length;
@@ -93,7 +94,7 @@ app.get('/tickets/shop/:shop', async (req, res) => {
 app.get('/tickets/shop/:shop/:type', async (req, res) => {
   try {
     let result = {};
-    const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type }).sort('createdTime');
+    const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type }).limit(10).sort('createdTime');
 
     result.count = tickets.length;
     result.tickets = tickets;
