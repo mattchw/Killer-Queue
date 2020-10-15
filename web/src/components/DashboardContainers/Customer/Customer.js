@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     padding: theme.spacing(2),
     height: 280,
+    overflow: 'auto',
   },
 }));
 
@@ -52,7 +53,7 @@ export default function Customer(props) {
   }
 
   useEffect(() => {
-    if(props.user){
+    if (props.user) {
       getLocation();
       console.log(props.user.username);
       dispatch(ticketsActions.getMyTickets(props.user.username));
@@ -66,13 +67,13 @@ export default function Customer(props) {
         {/* Chart */}
         <Grid item xs={12} md={7} lg={8}>
           <Paper className={classes.fixedHeight}>
-            <Shops shops={shops} coords={coords}/>
+            <Tickets tickets={tickets} />
           </Paper>
         </Grid>
         {/* Recent Deposits */}
         <Grid item xs={12} md={5} lg={4}>
           <Paper className={classes.fixedHeight}>
-            <Tickets tickets={tickets}/>
+            <Shops shops={shops} coords={coords} />
           </Paper>
         </Grid>
       </Grid>

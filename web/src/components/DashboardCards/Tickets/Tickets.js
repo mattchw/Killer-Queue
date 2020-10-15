@@ -26,18 +26,20 @@ export default function Tickets(props) {
         My Tickets
       </Typography>
 
-      {!getMyTickets ? <CircularProgress size={50} style={{ margin: 50 }} /> : <Table size="small">
+      {!getMyTickets ? <CircularProgress size={50} style={{ margin: 50 }} /> : <Table size="small" style={{ userSelect: 'none' }}>
         <TableHead>
           <TableRow>
+            <TableCell>Shop</TableCell>
             <TableCell>TicketNum</TableCell>
-            <TableCell>peopleNum</TableCell>
+            <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.tickets && props.tickets.map((item) => {
             return <TableRow key={item.ticketNum}>
+              <TableCell>{item.shop.name}</TableCell>
               <TableCell>{item.ticketNum}</TableCell>
-              <TableCell>{item.peopleNum}</TableCell>
+              <TableCell>{item.status}</TableCell>
             </TableRow>
           })}
         </TableBody>

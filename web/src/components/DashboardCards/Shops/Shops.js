@@ -37,7 +37,7 @@ export default function Shops(props) {
         Nearest Shops
       </Typography>
 
-      {!getShopDist ? <CircularProgress size={50} style={{ margin: 50 }} /> : <Table size="small">
+      {!getShopDist ? <CircularProgress size={50} style={{ margin: 50 }} /> : <Table size="small" style={{ userSelect: 'none' }}>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>

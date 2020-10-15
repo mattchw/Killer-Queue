@@ -51,7 +51,9 @@ app.get('/tickets/username', async (req, res) => {
     const username = req.query.username || "";
     let tickets = await ticketModel.find({
       username: username
-    }).sort('createdTime');;
+    })
+    .populate('shop')
+    .sort('createdTime');
 
     result.count = tickets.length;
     result.tickets = tickets;
