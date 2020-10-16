@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import cookie from 'js-cookie';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -30,18 +31,15 @@ const drawerWidth = 200;
 export default function Home() {
   const history = useHistory();
 
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = cookie.get('token');
+  const user = JSON.parse(localStorage.getItem('user'));
   const [userType, setUserType] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // validate token
-    if (token != null) {
-      dispatch(authActions.validateToken(token.accessToken), (result) => {
-        console.log(result)
-      });
-      // check user type
-      setUserType(token.user.type);
+
+    if (user) {
+      setUserType(user.type);
     } else {
       history.push('/login');
     }
@@ -53,8 +51,8 @@ export default function Home() {
         {userType === "Admin" && <div>
           <h2>I am Admin!</h2>
         </div>}
-        {userType === "ShopOwner" && <ShopOwnerDashboard user={token.user}/>}
-        {userType === "Customer" && <CustomerDashboard user={token.user}/>}
+        {userType === "ShopOwner" && <ShopOwnerDashboard user={user}/>}
+        {userType === "Customer" && <CustomerDashboard user={user}/>}
         <Box pt={4}>
           <Copyright />
         </Box>

@@ -145,7 +145,6 @@ var getUser = function (username, password, callback) {
 
     if (!user) {
       console.error('User not found');
-      console.log(crypto.createHash('sha256').update(password).digest('hex'));
     }
 
     callback(err, user);

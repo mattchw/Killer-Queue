@@ -1,5 +1,7 @@
 import axios from 'axios';
 import sha256 from 'crypto-js/sha256';
+import cookie from 'js-cookie';
+import api from '../constants/api';
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -11,9 +13,9 @@ export const VALIDATE_TOKEN_FAILURE = 'VALIDATE_TOKEN_FAILURE';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
-export const loginSuccess = token => ({
+export const loginSuccess = user => ({
 	type: LOGIN_SUCCESS,
-	payload: { token }
+	payload: { user }
 });
 
 export const loginFailure = error => ({
@@ -52,7 +54,7 @@ const login = (username, password) => async (dispatch) => {
 		params.append('grant_type', 'password');
 
 		var basic = 'Basic ' + new Buffer('application:secret').toString('base64');
-		await axios.post('/oauth/token', params, {
+		await axios.post(`${api.API_SERVER_URL}/oauth/token`, params, {
 			headers: {
 				'Authorization': basic
 			}
@@ -63,10 +65,17 @@ const login = (username, password) => async (dispatch) => {
 			// 	refreshToken: res.data.refreshToken,
 			// 	refreshTokenExpiresAt: res.data.refreshTokenExpiresAt,
 			// }
-			dispatch(loginSuccess(res.data));
-			localStorage.setItem('token', JSON.stringify(res.data));
+			cookie.set('token', res.data.accessToken, {
+				expires: 7
+			});
+			cookie.set('refresh_token', res.data.refreshToken, {
+				expires: 30
+			});
+			localStorage.setItem('user', JSON.stringify(res.data.user));
+			dispatch(loginSuccess(res.data.user));
+		}).then(()=>{
+			return Promise.resolve()
 		});
-
 	} catch (error) {
 		console.log(error);
 		dispatch(loginFailure(error));
@@ -75,13 +84,15 @@ const login = (username, password) => async (dispatch) => {
 
 const logout = () => {
 	// remove user from local storage to log user out
-	localStorage.removeItem('token');
+	localStorage.removeItem('user');
+	cookie.remove('token');
+	cookie.remove('refresh_token');
 };
 
 const validateToken = (token) => async (dispatch) => {
 	try {
 		var bearer = 'Bearer ' + token;
-		await axios.get('/users/check', {
+		await axios.get(`${api.API_SERVER_URL}/users/check`, {
 			headers: {
 				'Authorization': bearer
 			}
@@ -108,7 +119,7 @@ const register = (user) => async (dispatch) => {
 			params.append('password', sha256(user.password));
 			params.append('type', type);
 
-			axios.post('/users', params).then(res => {
+			axios.post(`${api.API_SERVER_URL}/users`, params).then(res => {
 				console.log(res.data);
 				dispatch(registerSuccess());
 			}).catch(err => {
@@ -119,6 +130,7 @@ const register = (user) => async (dispatch) => {
 				}
 			});
 		}
+		return Promise.resolve()
 
 	} catch (error) {
 		console.log(error);

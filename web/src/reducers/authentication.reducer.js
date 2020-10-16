@@ -16,7 +16,7 @@ export function authentication(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         loggedIn: true,
-        token: action.payload.token
+        user: action.payload.user
       };
     case LOGIN_FAILURE:
       return {
@@ -26,7 +26,7 @@ export function authentication(state = initialState, action) {
     case LOGOUT:
       return {
         loggedIn: false,
-        token: null
+        user: null
       };
     case VALIDATE_TOKEN_SUCCESS:
       return {
@@ -53,6 +53,3 @@ export function authentication(state = initialState, action) {
       return state
   }
 }
-
-export const getLoggedIn = state => state.authentication.loggedIn;
-export const getError = state => state.authentication.error;

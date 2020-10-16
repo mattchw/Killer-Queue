@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '../constants/api';
 
 export const GET_MY_TICKETS = 'GET_MY_TICKETS';
 export const GET_SHOP_TICKETS = 'GET_SHOP_TICKETS';
@@ -16,7 +17,7 @@ export const getShopTicketsReq = (type, tickets) => ({
 const getMyTickets = (username) => async (dispatch) => {
   try {
 
-    axios.get('/tickets/username', {
+    axios.get(`${api.API_SERVER_URL}/tickets/username`, {
       params: {
         username: username
       }
@@ -32,7 +33,7 @@ const getMyTickets = (username) => async (dispatch) => {
 const getShopTickets = (shop, type) => async (dispatch) => {
   try {
 
-    axios.get(`/tickets/shop/${shop}/${type}`).then(res => {
+    axios.get(`${api.API_SERVER_URL}/tickets/shop/${shop}/${type}`).then(res => {
       dispatch(getShopTicketsReq(type, res.data.data.tickets));
     });
 

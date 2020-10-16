@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '../constants/api';
 
 export const GET_NEAREST_SHOPS = 'GET_NEAREST_SHOPS';
 
@@ -10,7 +11,7 @@ export const getNearestShopsReq = (shops) => ({
 const getNearestShops = (lat, lng) => async (dispatch) => {
   try {
 
-    axios.get('/shops/nearest', {
+    axios.get(`${api.API_SERVER_URL}/shops/nearest`, {
       params: {
         lat: lat,
         lng: lng,

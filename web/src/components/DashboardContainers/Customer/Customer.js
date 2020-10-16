@@ -62,7 +62,7 @@ export default function Customer(props) {
 
   return (
     <div>
-      <h2>Hi, {props.user.username}!</h2>
+      <h2>Hi, {props.user && props.user.username}!</h2>
       <Grid container spacing={3}>
         {/* Chart */}
         <Grid item xs={12} md={7} lg={8}>

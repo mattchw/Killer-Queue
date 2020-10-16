@@ -60,7 +60,7 @@ export default function ShopTickets(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tickets.length != 0 && tickets.map((item) => {
+          {tickets.length !== 0 && tickets.map((item) => {
             return <TableRow key={item.ticketNum}>
               <TableCell>{item.ticketNum}</TableCell>
               <TableCell>{item.peopleNum}</TableCell>

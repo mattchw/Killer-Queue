@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 
 // config
@@ -46,6 +47,10 @@ mongoose.connect(CONNECTION_URL+DATABASE_NAME, {
 // mongodb connection error handling
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(cors({
+  origin: "http://localhost:3000"
+}))
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
@@ -71,10 +76,9 @@ app.set('json spaces', 2); // number of spaces for indentation
 app.all('/oauth/token', authRouter.obtainToken);
 
 app.get('/', authRouter.authenticateRequest, function(req, res) {
-
 	res.send('Check token success');
 });
 
 app.listen(port, () => {
-  console.log(`Server listening at ${port}`);
+  console.log(`API Server listening at ${port}`);
 });
