@@ -99,7 +99,7 @@ export default function NavBar(props) {
             if (props.userType == drawerItem.name){
               return (
                 drawerItem.items.map((v, index)=>{
-                  return <ListItem key={index} button>
+                  return <ListItem key={index} button href={v.link} component="a">
                   <ListItemIcon>
                     <Icon>{v.icon}</Icon>
                   </ListItemIcon>

@@ -24,24 +24,26 @@ const log4js = require("log4js");
 const logger = log4js.getLogger();
 log4js.configure({
   appenders: {
-    out: { type: 'stdout', layout: {
-      type: 'pattern',
-      pattern: '[%d] (%z) [%p]: %m'
-    }}
+    out: {
+      type: 'stdout', layout: {
+        type: 'pattern',
+        pattern: '[%d] (%z) [%p]: %m'
+      }
+    }
   },
   categories: { default: { appenders: ['out'], level: 'debug' } }
 });
-app.use(log4js.connectLogger(logger, { 
-  level: 'auto', 
+app.use(log4js.connectLogger(logger, {
+  level: 'auto',
   format: ':method :url HTTP/:http-version | request end | status: :status | elapsed time: :response-time ms'
 }));
 
 // mongodb connection
-mongoose.connect(CONNECTION_URL+DATABASE_NAME, {
+mongoose.connect(CONNECTION_URL + DATABASE_NAME, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false 
+  useFindAndModify: false
 });
 
 // mongodb connection error handling
@@ -62,7 +64,7 @@ app.use((req, res, next) => {
 
   //initialize request parameters (request_id / start time...)
   req.logger(req, "info", "request start");
-  
+
   return next();
 });
 
@@ -75,8 +77,8 @@ app.set('json spaces', 2); // number of spaces for indentation
 
 app.all('/oauth/token', authRouter.obtainToken);
 
-app.get('/', authRouter.authenticateRequest, function(req, res) {
-	res.send('Check token success');
+app.get('/', authRouter.authenticateRequest, function (req, res) {
+  res.send('Check token success');
 });
 
 app.listen(port, () => {

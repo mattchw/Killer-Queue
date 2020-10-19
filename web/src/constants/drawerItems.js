@@ -18,10 +18,12 @@ export default [
       {
         name: "Shops",
         icon: "food_bank",
+        link: "/shops"
       },
       {
         name: "My Tickets",
         icon: "book_online",
+        link: "/tickets",
       }
     ]
   },

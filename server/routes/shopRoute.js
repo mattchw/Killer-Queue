@@ -7,10 +7,21 @@ const authUtil = require('../oauth/auth');
 const app = express();
 
 app.get('/shops', async (req, res) => {
-  const shops = await shopModel.find({});
-
+  const { page = 1, limit = 2 } = req.query;
   try {
-    res.json(shops);
+    let result = {};
+    let filters = {};
+    if(req.query.name) filters.name = {$regex:req.query.name};
+
+    const shops = await shopModel.find(filters).limit(limit * 1).skip((page - 1) * limit);
+    const count = await shopModel.find(filters).countDocuments();
+
+    result.count = count;
+    result.shops = shops;
+    result.totalPages = Math.ceil(count / limit);
+    result.currentPage = parseInt(page, 10);
+
+    res.sendRes.successRes(res, null, result);
   } catch (err) {
     res.status(500).send({
       message: err.message || "Error occurred while searching the shops."

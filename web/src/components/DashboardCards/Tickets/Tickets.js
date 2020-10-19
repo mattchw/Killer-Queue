@@ -15,7 +15,7 @@ export default function Tickets(props) {
   const [getMyTickets, setGetMyTickets] = useState(false);
 
   useEffect(() => {
-    if (props.tickets>0) {
+    if (props.tickets) {
       setGetMyTickets(true);
     }
   }, [props]);

@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 import SignUp from './route/SignUp'
 import Login from './route/Login'
 import Home from './route/Home'
+import ShopSearch from './route/ShopSearch'
 import NotFound from './route/NotFound'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
     <Router>
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute exact path="/shops" component={ShopSearch} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Route component={NotFound} />

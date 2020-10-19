@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Customer(props) {
   const classes = useStyles();
-  const shops = useSelector(store => store.shops.shops);
+  const shops = useSelector(store => store.shops.nearestShops);
   const tickets = useSelector(store => store.tickets.tickets);
 
   const [coords, setCoords] = useState(null);
@@ -55,7 +55,6 @@ export default function Customer(props) {
   useEffect(() => {
     if (props.user) {
       getLocation();
-      console.log(props.user.username);
       dispatch(ticketsActions.getMyTickets(props.user.username));
     }
   }, [props.user]);

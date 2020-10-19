@@ -3,8 +3,6 @@ import cookie from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -13,7 +11,8 @@ import NavBar from '../components/NavBar/NavBar';
 import CustomerDashboard from '../components/DashboardContainers/Customer/Customer';
 import ShopOwnerDashboard from '../components/DashboardContainers/ShopOwner/ShopOwner';
 
-import { authActions } from '../actions/authentication.action';
+// layout
+import Layout from '../layouts/Default';
 
 function Copyright() {
   return (
@@ -37,7 +36,6 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if (user) {
       setUserType(user.type);
     } else {
@@ -46,17 +44,12 @@ export default function Home() {
   }, []);
 
   return (
-    <NavBar userType={userType}>
-      <Container maxWidth="lg">
-        {userType === "Admin" && <div>
-          <h2>I am Admin!</h2>
-        </div>}
-        {userType === "ShopOwner" && <ShopOwnerDashboard user={user}/>}
-        {userType === "Customer" && <CustomerDashboard user={user}/>}
-        <Box pt={4}>
-          <Copyright />
-        </Box>
-      </Container>
-    </NavBar>
+    <Layout userType={userType}>
+      {userType === "Admin" && <div>
+        <h2>I am Admin!</h2>
+      </div>}
+      {userType === "ShopOwner" && <ShopOwnerDashboard user={user}/>}
+      {userType === "Customer" && <CustomerDashboard user={user}/>}
+    </Layout>
   );
 }
