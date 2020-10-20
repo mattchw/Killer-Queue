@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { authActions } from '../actions/authentication.action';
@@ -81,7 +81,7 @@ export default function SignUp() {
     } else if (register === "Success") {
       history.push("/login");
     }
-  }, [register]);
+  }, [register, history, submitted, dispatch]);
 
   const handleSnackbarClose = () => {
     setSnackbar({ open: false, msg: ""});
@@ -138,7 +138,6 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="fname"
                 name="firstName"
                 variant="outlined"
                 required

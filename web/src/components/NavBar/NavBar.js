@@ -17,8 +17,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import Icon from '@material-ui/core/Icon'
 
@@ -27,9 +25,6 @@ import logo from '../../assets/images/killer-queue.png';
 import drawerItems from '../../constants/drawerItems'
 
 import styles from './NavBar.style'
-
-
-const drawerWidth = 200;
 
 const useStyles = styles;
 
@@ -96,7 +91,7 @@ export default function NavBar(props) {
             <ListItemText primary="Dashboard" />
           </ListItem>
           {drawerItems.map((drawerItem) => {
-            if (props.userType == drawerItem.name){
+            if (props.userType === drawerItem.name){
               return (
                 drawerItem.items.map((v, index)=>{
                   return <ListItem key={index} button href={v.link} component="a">

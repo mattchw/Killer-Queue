@@ -1,5 +1,6 @@
 import axios from 'axios';
 import api from '../constants/api';
+import cookie from 'js-cookie';
 
 export const GET_NEAREST_SHOPS = 'GET_NEAREST_SHOPS';
 export const GET_ALL_SHOPS = 'GET_ALL_SHOPS';
@@ -72,9 +73,53 @@ const changeSearchPage = (page) => async (dispatch) => {
   dispatch(changeSearchPageReq(page));
 };
 
+const getShopCallingTicket = async (shopId, type) => {
+  try {
+    const res = await axios.get(`${api.API_SERVER_URL}/tickets/shop/${shopId}/${type}/2`);
+    return res.data.data.tickets
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getShopNextTicketNum = async (shopId, type) => {
+  try {
+    const res = await axios.get(`${api.API_SERVER_URL}/tickets/ticketNum/shop/${shopId}/${type}`);
+    return res.data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const createShopTicket = async (shopId, type, peopleNum) => {
+  try {
+    if(cookie.get('token')){
+      const bearer = 'Bearer ' + cookie.get('token');
+      const params = new URLSearchParams();
+      params.append('shop', shopId);
+      params.append('type', type);
+      params.append('peopleNum', peopleNum);
+      const res = await axios.post(`${api.API_SERVER_URL}/tickets`, params, {
+        headers: {
+          'Authorization': bearer
+        }
+      });
+      return res
+    } else {
+      return null
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const shopsActions = {
   getNearestShops,
   getAllShops,
   changeSearchKeyword,
-  changeSearchPage
+  changeSearchPage,
+  getShopCallingTicket,
+  getShopNextTicketNum,
+  createShopTicket
 };

@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import style from './SearchBar.style'
 import { shopsActions } from '../../actions/shops.action';
@@ -20,7 +16,6 @@ const useStyles = style;
 
 export default function SearchBar(props) {
   const classes = useStyles();
-  const page = props.page;
   const [keyword, setKeyword] = useState("");
 
   const dispatch = useDispatch();
@@ -35,9 +30,9 @@ export default function SearchBar(props) {
 
   useEffect(()=>{
     if(keyword === ""){
-      handleSearch();
+      dispatch(shopsActions.changeSearchKeyword(keyword));
     }
-  }, [keyword]);
+  }, [keyword, dispatch]);
 
   return (
     <Grid container direction="row" justify="center" alignItems="center" className={classes.searchBarContainer}>

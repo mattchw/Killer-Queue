@@ -50,7 +50,7 @@ app.get('/tickets/username', async (req, res) => {
     let result = {};
     const username = req.query.username || "";
     let tickets = await ticketModel.find({
-      username: username
+      user: username
     })
     .populate('shop')
     .limit(5)
@@ -136,28 +136,30 @@ app.get('/tickets/shop/:shop/:type/:status', async (req, res) => {
   }
 });
 
-// get latest ticketNum by resturantId and ticket type
+// get next ticketNum by resturantId and ticket type
 app.get('/tickets/ticketNum/shop/:shop/:type', async (req, res) => {
   try {
     const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type }).sort('-createdTime');
+    let ticketNum = "0001";
     if (tickets.length > 0) {
-      res.sendRes.successRes(res, null, tickets[0].ticketNum);
+      let tmp = Number(tickets[0].ticketNum.slice(1, 5)) + 1;
+      ticketNum = ("000" + tmp).slice(-4);
     }
-    else {
-      res.sendRes.internalServerErrRes(res, `No ticket with ticket type: ${req.params.type} and shop ID: ${req.params.shop}`, null);
-    }
+    res.sendRes.successRes(res, null, req.params.type + ticketNum);
   } catch (err) {
     res.sendRes.internalServerErrRes(res, err.message || "Error occurred while searching the tickets.", null);
   }
 });
 
-app.post('/tickets', async (req, res) => {
+app.post('/tickets', authRouter.authenticateRequest, async (req, res) => {
   // Validate request
   if (!req.body.shop || !req.body.type || !req.body.peopleNum) {
     return res.sendRes.badRequestRes(res, "Missing mandatory fields", null);
   }
 
   try {
+    const { token } = res.locals;
+
     let ticketNum = "0001";
     const tickets = await ticketModel.find({ shop: req.body.shop, type: req.body.type }).sort('-createdTime');
 
@@ -173,6 +175,7 @@ app.post('/tickets', async (req, res) => {
       peopleNum: req.body.peopleNum,
       status: "Queueing",
       shop: req.body.shop,
+      user: token.user.username,
     });
 
     // Save Ticket into db

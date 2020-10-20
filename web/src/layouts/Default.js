@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';

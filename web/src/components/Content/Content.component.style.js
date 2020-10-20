@@ -51,5 +51,21 @@ export default makeStyles(theme => ({
     },
     name:{
       padding: 5,
-    }
+    },
+    paper: {
+      width: 400,
+      textAlign: 'center',
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    modalButtonWrapper: { 
+      padding: 5, 
+      border: "solid 1px"
+    },
 }));

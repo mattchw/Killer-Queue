@@ -7,7 +7,7 @@ const authUtil = require('../oauth/auth');
 const app = express();
 
 app.get('/shops', async (req, res) => {
-  const { page = 1, limit = 2 } = req.query;
+  const { page = 1, limit = 10 } = req.query;
   try {
     let result = {};
     let filters = {};
