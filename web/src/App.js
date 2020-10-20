@@ -11,6 +11,7 @@ import SignUp from './route/SignUp'
 import Login from './route/Login'
 import Home from './route/Home'
 import ShopSearch from './route/ShopSearch'
+import Tickets from './route/Tickets'
 import NotFound from './route/NotFound'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/shops" component={ShopSearch} />
+        <PrivateRoute exact path="/tickets" component={Tickets} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Route component={NotFound} />

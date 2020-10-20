@@ -14,12 +14,13 @@ export const getShopTicketsReq = (type, tickets) => ({
   payload: { type, tickets }
 });
 
-const getMyTickets = (username) => async (dispatch) => {
+const getMyTickets = (username, limit = 5) => async (dispatch) => {
   try {
 
     axios.get(`${api.API_SERVER_URL}/tickets/username`, {
       params: {
-        username: username
+        username,
+        limit
       }
     }).then(res => {
       dispatch(getMyTicketsReq(res.data.data.tickets));

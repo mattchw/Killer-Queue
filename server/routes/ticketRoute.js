@@ -48,12 +48,18 @@ app.get('/tickets', async (req, res) => {
 app.get('/tickets/username', async (req, res) => {
   try {
     let result = {};
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const username = req.query.username || "";
+    const limit = parseInt(req.query.limit, 10) || 5;
     let tickets = await ticketModel.find({
-      user: username
+      user: username,
+      createdTime: {
+        $gte: startOfToday
+      }
     })
     .populate('shop')
-    .limit(5)
+    .limit(limit)
     .sort('createdTime');
 
     result.count = tickets.length;

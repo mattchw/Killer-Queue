@@ -144,28 +144,28 @@ function ContentItem(props) {
         {
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              A: {ticketsinfo.A[0] ? ticketsinfo.A[0].ticketNum : "----"} > {ticketsinfo.A[1]}
+              A: {ticketsinfo.A[0] ? ticketsinfo.A[0].ticketNum : "----"} &gt; {ticketsinfo.A[1]}
             </Typography>
           </Grid>
         }
         {
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              B: {ticketsinfo.B[0] ? ticketsinfo.B[0].ticketNum : "----"} > {ticketsinfo.B[1]}
+              B: {ticketsinfo.B[0] ? ticketsinfo.B[0].ticketNum : "----"} &gt; {ticketsinfo.B[1]}
             </Typography>
           </Grid>
         }
         {
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              C: {ticketsinfo.C[0] ? ticketsinfo.C[0].ticketNum : "----"} > {ticketsinfo.C[1]}
+              C: {ticketsinfo.C[0] ? ticketsinfo.C[0].ticketNum : "----"} &gt; {ticketsinfo.C[1]}
             </Typography>
           </Grid>
         }
         {
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              D: {ticketsinfo.D[0] ? ticketsinfo.D[0].ticketNum : "----"} > {ticketsinfo.D[1]}
+              D: {ticketsinfo.D[0] ? ticketsinfo.D[0].ticketNum : "----"} &gt; {ticketsinfo.D[1]}
             </Typography>
           </Grid>
         }
@@ -263,7 +263,7 @@ function ContentItem(props) {
                 </Grid>
               </Grid>
               <Grid container direction="row" justify="center" alignContent="center" item xs={12} style={{ padding: 5 }}>
-                <Button value={8} size="small" variant="contained" onClick={handleClose}>
+                <Button size="small" variant="contained" onClick={handleClose}>
                   Close
                 </Button>
               </Grid>

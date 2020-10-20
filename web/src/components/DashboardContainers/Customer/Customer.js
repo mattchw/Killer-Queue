@@ -60,7 +60,7 @@ export default function Customer(props) {
   }, [props.user]);
 
   return (
-    <div>
+    <React.Fragment>
       <h2>Hi, {props.user && props.user.username}!</h2>
       <Grid container spacing={3}>
         {/* Chart */}
@@ -76,6 +76,6 @@ export default function Customer(props) {
           </Paper>
         </Grid>
       </Grid>
-    </div>
+    </React.Fragment>
   );
 }
