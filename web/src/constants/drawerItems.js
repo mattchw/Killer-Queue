@@ -9,6 +9,7 @@ export default [
       {
         name: "Tickets",
         icon: "book_online",
+        link: "/tickets",
       }
     ]
   },

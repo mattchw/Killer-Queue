@@ -33,7 +33,6 @@ function authenticateRequest(req, res, next) {
       res.locals.token = token;
       next();
     }).catch(function (err) {
-
       res.status(err.code || 500).json(err);
     });
 }

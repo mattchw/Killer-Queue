@@ -28,10 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShopOwner(props) {
   const classes = useStyles();
-  const shops = useSelector(store => store.shops.shops);
   const tickets = useSelector(store => store.tickets.tickets);
-
-  const [coords, setCoords] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -45,7 +42,7 @@ export default function ShopOwner(props) {
   }, [props.user]);
 
   return (
-    <div>
+    <React.Fragment>
       <h2>Hi, {props.user.username}!</h2>
       <Grid container spacing={3}>
         {/* Chart */}
@@ -70,6 +67,6 @@ export default function ShopOwner(props) {
           </Paper>
         </Grid>
       </Grid>
-    </div>
+    </React.Fragment>
   );
 }

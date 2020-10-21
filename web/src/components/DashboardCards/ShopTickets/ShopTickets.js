@@ -10,6 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { ticketsActions } from '../../../actions/tickets.action';
+
 export default function ShopTickets(props) {
 
   const [getMyTickets, setGetMyTickets] = useState(false);
@@ -44,6 +46,16 @@ export default function ShopTickets(props) {
     }
   }, [props]);
 
+  const callTicket = async (item) => {
+    //const item = e.getAttribute('data-item');
+    if (item.status == "Queueing"){
+      const res = await ticketsActions.callTicket(item._id);
+      if (res){
+        window.location.reload(false);
+      }
+    }
+  };
+
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -61,7 +73,7 @@ export default function ShopTickets(props) {
         </TableHead>
         <TableBody>
           {tickets.length !== 0 && tickets.map((item) => {
-            return <TableRow key={item.ticketNum}>
+            return <TableRow key={item._id} data-item={item} onClick={() => callTicket(item)}>
               <TableCell>{item.ticketNum}</TableCell>
               <TableCell>{item.peopleNum}</TableCell>
               <TableCell>{item.status}</TableCell>

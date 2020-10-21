@@ -84,7 +84,7 @@ export default function NavBar(props) {
         </div>
         <Divider />
         <List>
-          <ListItem button href="/">
+          <ListItem button href="/" component="a">
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>

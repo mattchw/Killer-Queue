@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../layouts/Default';
 
 // container
-import Customer from '../components/TicketsContainers/Customer/Customer'
+import CustomerTickets from '../components/TicketsContainers/Customer/Customer'
+import ShopOwnerTickets from '../components/TicketsContainers/ShopOwner/ShopOwner'
 
 // actions
 import { shopsActions } from '../actions/shops.action';
@@ -32,7 +33,8 @@ export default function Tickets() {
 
   return (
     <Layout userType={userType}>
-      {userType === "Customer" && <Customer user={user}/>}
+      {userType === "Customer" && <CustomerTickets user={user}/>}
+      {userType === "ShopOwner" && <ShopOwnerTickets user={user}/>}
     </Layout>
   );
 }

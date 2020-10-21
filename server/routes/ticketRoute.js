@@ -100,7 +100,15 @@ app.get('/tickets/shop/:shop', async (req, res) => {
 app.get('/tickets/shop/:shop/:type', async (req, res) => {
   try {
     let result = {};
-    const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type }).limit(10).sort('createdTime');
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tickets = await ticketModel.find({ 
+      shop: req.params.shop, 
+      type: req.params.type,
+      createdTime: {
+        $gte: startOfToday
+      }
+    }).limit(10).sort('createdTime');
 
     result.count = tickets.length;
     result.tickets = tickets;
@@ -115,6 +123,8 @@ app.get('/tickets/shop/:shop/:type', async (req, res) => {
 app.get('/tickets/shop/:shop/:type/:status', async (req, res) => {
   try {
     let status;
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     switch (req.params.status) {
       case '1':
         status = 'Queueing';
@@ -131,7 +141,14 @@ app.get('/tickets/shop/:shop/:type/:status', async (req, res) => {
       default:
     }
     let result = {};
-    const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type, status: status }).sort('createdTime');
+    const tickets = await ticketModel.find({ 
+      shop: req.params.shop,
+      type: req.params.type, 
+      status: status,
+      createdTime: {
+        $gte: startOfToday
+      }
+    }).sort('createdTime');
 
     result.count = tickets.length;
     result.tickets = tickets;
@@ -145,7 +162,16 @@ app.get('/tickets/shop/:shop/:type/:status', async (req, res) => {
 // get next ticketNum by resturantId and ticket type
 app.get('/tickets/ticketNum/shop/:shop/:type', async (req, res) => {
   try {
-    const tickets = await ticketModel.find({ shop: req.params.shop, type: req.params.type }).sort('-createdTime');
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tickets = await ticketModel.find({ 
+      shop: req.params.shop, 
+      type: req.params.type,
+      createdTime: {
+        $gte: startOfToday
+      }
+    }).sort('-createdTime');
+
     let ticketNum = "0001";
     if (tickets.length > 0) {
       let tmp = Number(tickets[0].ticketNum.slice(1, 5)) + 1;
@@ -165,9 +191,17 @@ app.post('/tickets', authRouter.authenticateRequest, async (req, res) => {
 
   try {
     const { token } = res.locals;
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     let ticketNum = "0001";
-    const tickets = await ticketModel.find({ shop: req.body.shop, type: req.body.type }).sort('-createdTime');
+    const tickets = await ticketModel.find({ 
+      shop: req.body.shop,
+      type: req.body.type,
+      createdTime: {
+        $gte: startOfToday
+      }
+    }).sort('-createdTime');
 
     if (tickets[0] != null) {
       let tmp = Number(tickets[0].ticketNum.slice(1, 5)) + 1;
@@ -203,7 +237,7 @@ app.post('/tickets', authRouter.authenticateRequest, async (req, res) => {
 });
 
 // change ticket status freely
-app.put('/tickets/:id', authRouter.authenticateRequest, authUtil.authorize(['Owner', 'Admin']), async (req, res) => {
+app.put('/tickets/:id', authRouter.authenticateRequest, authUtil.authorize(['ShopOwner', 'Admin']), async (req, res) => {
   // Validate request
   if (!req.body) {
     return res.sendRes.badRequestRes(res, "Ticket cannot be empty", null);
@@ -228,12 +262,7 @@ app.put('/tickets/:id', authRouter.authenticateRequest, authUtil.authorize(['Own
 });
 
 // update ticket status as CALLING, allowing only 1 CALLING ticket and automatically switch previous CALLING ticket's status as PASSED
-app.put('/tickets/calling/:id', authRouter.authenticateRequest, authUtil.authorize('Owner'), async (req, res) => {
-  // Validate request
-  if (!req.body) {
-    return res.sendRes.badRequestRes(res, "Ticket cannot be empty", null);
-  }
-
+app.put('/tickets/calling/:id', authRouter.authenticateRequest, authUtil.authorize('ShopOwner'), async (req, res) => {
   // Save Ticket into db
   try {
     const ticket = await ticketModel.findById(req.params.id);
@@ -264,7 +293,7 @@ app.put('/tickets/calling/:id', authRouter.authenticateRequest, authUtil.authori
   }
 });
 
-app.delete('/tickets/:id', authRouter.authenticateRequest, authUtil.authorize('Owner'), async (req, res) => {
+app.delete('/tickets/:id', authRouter.authenticateRequest, authUtil.authorize('ShopOwner'), async (req, res) => {
   try {
     const ticket = await ticketModel.findByIdAndDelete(req.params.id);
     return res.sendRes.successRes(res, `The ticket(${ticket._id}) has been successfully deleted.`, null);

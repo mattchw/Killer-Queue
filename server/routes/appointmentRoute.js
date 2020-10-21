@@ -200,7 +200,7 @@ app.post('/appointments', async (req, res) => {
 });
 
 // change appointment status
-app.put('/appointments/:id', authRouter.authenticateRequest, authUtil.authorize('Owner'), async (req, res) => {
+app.put('/appointments/:id', authRouter.authenticateRequest, authUtil.authorize('ShopOwner'), async (req, res) => {
     // Validate request
     if (!req.body) {
         return res.status(400).send({
@@ -229,7 +229,7 @@ app.put('/appointments/:id', authRouter.authenticateRequest, authUtil.authorize(
     }
 });
 
-app.delete('/appointments/:id', authRouter.authenticateRequest, authUtil.authorize('Owner'), async (req, res) => {
+app.delete('/appointments/:id', authRouter.authenticateRequest, authUtil.authorize('ShopOwner'), async (req, res) => {
     try {
         const data = await appointmentModel.findByIdAndDelete(req.params.id);
         res.send(data);

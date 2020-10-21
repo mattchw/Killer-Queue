@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookie from 'js-cookie';
 import api from '../constants/api';
 
 export const GET_MY_TICKETS = 'GET_MY_TICKETS';
@@ -43,7 +44,28 @@ const getShopTickets = (shop, type) => async (dispatch) => {
   }
 };
 
+const callTicket = async (id) => {
+  try {
+    if(cookie.get('token')){
+      const bearer = 'Bearer ' + cookie.get('token');
+
+      const res = await axios.put(`${api.API_SERVER_URL}/tickets/calling/${id}`, {}, {
+        headers: {
+          'Authorization': bearer
+        }
+      });
+      return res
+    } else {
+      return null
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const ticketsActions = {
   getMyTickets,
-  getShopTickets
+  getShopTickets,
+  callTicket
 };
