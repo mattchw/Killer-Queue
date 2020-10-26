@@ -7,9 +7,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import NavBar from '../components/NavBar/NavBar';
-import CustomerDashboard from '../components/DashboardContainers/Customer/Customer';
-import ShopOwnerDashboard from '../components/DashboardContainers/ShopOwner/ShopOwner';
+import Main from '../components/Main/Main';
 
 // layout
 import Layout from '../layouts/Default';
@@ -25,31 +23,16 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 200;
 
 export default function Home() {
-  const history = useHistory();
-
-  const token = cookie.get('token');
-  const user = JSON.parse(localStorage.getItem('user'));
-  const [userType, setUserType] = useState('');
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user) {
-      setUserType(user.type);
-    } else {
-      history.push('/login');
-    }
+
   }, []);
 
   return (
-    <Layout userType={userType}>
-      {userType === "Admin" && <div>
-        <h2>I am Admin!</h2>
-      </div>}
-      {userType === "ShopOwner" && <ShopOwnerDashboard user={user}/>}
-      {userType === "Customer" && <CustomerDashboard user={user}/>}
-    </Layout>
+    <React.Fragment>
+      <Main/>
+    </React.Fragment>
   );
 }

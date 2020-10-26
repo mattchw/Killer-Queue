@@ -1,0 +1,35 @@
+.header {
+  /* The image used */
+  background-image: url('../../assets/images/background.png');
+
+  /* Full height */
+  height: 100vh; 
+  width: 100vw;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sticky {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #00000000;
+  transition: top 1s;
+}
+
+.logo {
+  padding: 10px;
+  float: left;
+  min-width: 200px;
+}
+
+.btn {
+  padding: 10px;
+  float: right;
+  vertical-align: baseline;
+}

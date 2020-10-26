@@ -4,7 +4,7 @@ const app = express();
 
 app.oauth = new OAuth2Server({
   model: require('../oauth/auth'),
-  accessTokenLifetime: 60 * 60 * 24,
+  accessTokenLifetime: 60 * 60 * 24 * 7,
   allowBearerTokensInQueryString: true
 });
 
