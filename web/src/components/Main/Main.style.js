@@ -19,6 +19,30 @@ export default makeStyles(theme => ({
   title:{
     userSelect: 'none',
     fontFamily: 'Abang',
+    '@media (min-width:300px)': {
+      fontSize: '1.5rem',
+    },
+    '@media (min-width:400px)': {
+      fontSize: '1.8rem',
+    },
+    '@media (min-width:600px)': {
+      fontSize: '2rem',
+    }
+  },
+  description:{
+    '@media (min-width:300px)': {
+      fontSize: '1rem',
+    },
+    '@media (min-width:400px)': {
+      fontSize: '1.3rem',
+    },
+    '@media (min-width:600px)': {
+      fontSize: '1.5rem',
+    }
+  },
+  navTitle:{
+    userSelect: 'none',
+    fontFamily: 'Abang',
   },
   navItem:{
     padding: 10

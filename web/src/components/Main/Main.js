@@ -28,21 +28,12 @@ function Main(props) {
               <img src={logo} alt="logo" className={classes.appBarIcon} />
             </Grid>
             <Grid item xs={8}>
-              <Typography component="h1" variant="h6" color="inherit" className={classes.title}>
+              <Typography component="h1" variant="h6" color="textPrimary" gutterBottom className={classes.navTitle}>
                 Killer Queue
               </Typography>
             </Grid>
           </Grid>
         </div>
-        <Hidden smDown>
-          <div
-            className={`btn`}
-          >
-            <Typography component="h6" variant="h6" color="textPrimary" className={classes.navItem}>
-              Getting Started
-            </Typography>
-          </div>
-        </Hidden>
       </div>
       <Grid container direction="row" justify="flex-start" alignItems="center" className={classes.containerItem}>
         <Hidden smUp>
@@ -51,22 +42,22 @@ function Main(props) {
           </Grid>
         </Hidden>
         <Grid item xs={12} sm={6} container direction="row" justify="center" alignItems="center">
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ padding: 10 }}>
             <Typography component="h1" variant="h3" color="textPrimary" gutterBottom className={classes.title}>
               Killer Queue - <br />Queueing System
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
-              Virtual queuing for the busiest shops & restaurants with Killer Queue!</Typography>
+          <Grid item xs={12} style={{ padding: 10 }}>
+            <Typography component="h6" variant="h6" color="textPrimary" gutterBottom className={classes.description}>
+              Help busy shops & customers to manage queueing easily!</Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" style={{ backgroundColor: 'black' }}>
-              Get Started
+          <Grid item xs={12} style={{ padding: 10 }}>
+            <Button variant="contained" color="primary" href="/signup" style={{ backgroundColor: 'black' }}>
+              Getting Started
             </Button>
           </Grid>
         </Grid>
-        <Hidden smDown>
+        <Hidden xsDown>
           <Grid item xs={12} sm={6}>
             <img src={image} alt="image" style={{ width: '100%' }} />
           </Grid>
