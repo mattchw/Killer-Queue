@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import Footer from '../components/Footer/Footer';
+
 import Snackbar from '@material-ui/core/Snackbar';
 
 import { useLocation, useHistory } from 'react-router-dom';
@@ -22,13 +24,12 @@ import { authActions } from '../actions/authentication.action';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body1" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://mattwong.info/">
+        Matthew Wong
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
@@ -94,7 +95,7 @@ export default function Login() {
     setSubmitted(true);
     if (username && password) {
       // get return url from location state or default to home page
-      const { from } = location.state || { from: { pathname: "/" } };
+      const { from } = location.state || { from: { pathname: "/dashboard" } };
       dispatch(authActions.login(username, password)).then(()=>{
         history.push(from);
       });
@@ -137,10 +138,6 @@ export default function Login() {
             autoComplete="current-password"
             onChange={handleChange}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -150,12 +147,7 @@ export default function Login() {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
+          <Grid container justify="flex-end">
             <Grid item>
               <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
@@ -164,7 +156,7 @@ export default function Login() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
+      <Box mt={5}>
         <Copyright />
       </Box>
       <Snackbar

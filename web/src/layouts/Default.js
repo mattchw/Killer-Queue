@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -8,11 +9,12 @@ import NavBar from '../components/NavBar/NavBar';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body1" color="textSecondary" align="center">
       {'Copyright © '}
-        Your Website
+      <Link color="inherit" href="https://mattwong.info/">
+        Matthew Wong
+      </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }

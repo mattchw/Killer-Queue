@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"No test is written yet.\" && exit 0",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Matthew Wong",
   "license": "ISC",

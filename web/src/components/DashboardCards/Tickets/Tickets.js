@@ -87,7 +87,7 @@ export default function Tickets(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.tickets.length != 0 && props.tickets.map((item) => {
+          {props.tickets && props.tickets.length != 0 && props.tickets.map((item) => {
             return <TableRow key={item._id} data-item={item} onClick={() => handleOpen(item)}>
               <TableCell>{item.shop.name}</TableCell>
               <TableCell>{item.ticketNum}</TableCell>
